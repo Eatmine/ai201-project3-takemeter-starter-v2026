@@ -49,67 +49,62 @@ whether you hit them:
   three.** A target of 0.65 against results of 0.71, 0.62, 0.68 is a **miss**.
   Pick with that in mind — it is stricter than it first sounds.
 
----
 
 ## 1.
 
-<!-- Your criterion. It must name a number. -->
+Overall accuracy on the held-out test set is at least 0.65 on all three seeds.
 
-
-
-**Why this target:**
-
-
+**Why this target:** With two labels, random guessing gets about 50%, so 0.65 is
+clearly better than chance. I didn't go higher because my test split is only
+about 22 posts, so each post moves accuracy by about 4–5 points, and the target
+has to hold on all three seeds.
 
 ---
 
 ## 2.
 
-<!-- Your criterion. -->
+F1 for `take` is at least 0.75 and F1 for `argued` is at least 0.65 on the
+held-out test set, on all three seeds.
 
-
-
-**Why this target:**
-
-
+**Why this target:** Most posts on r/TheLastAirbender are opinions with no
+evidence, so `take` will have more examples and should score higher. `argued`
+is my smaller label, so its F1 is computed on fewer test posts and will jump
+more between seeds, which is why its target is lower.
 
 ---
 
 ## 3.
 
-<!-- Your criterion. -->
+No label makes up more than 65% of labels.csv.
 
-
-
-**Why this target:**
-
-
+**Why this target:** The assignment caps labels at 70%, but `take` posts are
+much easier to find in this subreddit than `argued` ones. At 70%, a model that
+always guesses `take` would already beat my accuracy target, so I set a
+stricter limit to make sure the model has to learn the difference.
 
 ---
 
 ## 4.
 
-<!-- Your criterion. -->
+My labels agree with the staff member's labels on at least 85% of the posts we
+both labeled.
 
-
-
-**Why this target:**
-
-
+**Why this target:** My decision rule is concrete: a named episode, scene,
+quote, or in-show event makes a post `argued`. That should be easy for someone
+else to apply. I left 15% for the hard cases, mostly list posts and short
+posts that mention an event in passing.
 
 ---
 
 ## 5.
 
-<!-- Your criterion. -->
+Predictions where the model's confidence is at least 0.80 are correct at least
+10 percentage points more often than predictions below 0.80, on all three seeds.
 
-
-
-**Why this target:**
-
-
-
----
+**Why this target:** If the model is learning my argued/take distinction, it
+should be surest on clear posts (long ones citing episodes, or one-line
+opinions) and least sure on borderline list posts. A 10-point gap shows
+confidence actually means something.
 
 <!-- ─────────────────────────────────────────────────────────────────────────
      UNIT 6 — read this before you change anything above.

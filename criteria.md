@@ -52,7 +52,7 @@ whether you hit them:
 
 ## 1.
 
-Overall accuracy on the held-out test set is at least 0.65 on all three seeds.
+Overall accuracy on the held-out test set is at least 0.70 on all three seeds.
 
 **Why this target:** With two labels, random guessing gets about 50%, so 0.65 is
 clearly better than chance. I didn't go higher because my test split is only

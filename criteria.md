@@ -98,7 +98,7 @@ posts that mention an event in passing.
 
 ## 5.
 
-Predictions where the model's confidence is at least 0.80 are correct at least
+Predictions where the model's top predicted probability is at least 0.80 are correct at least
 10 percentage points more often than predictions below 0.80, on all three seeds.
 
 **Why this target:** If the model is learning my argued/take distinction, it

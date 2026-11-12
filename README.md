@@ -149,10 +149,10 @@ I used Claude throughout this project. Two specific moments:
 **Moment 2**
 
 - *What I asked for:* Help with my acceptance criteria.
-- *What came back:* It gave me multiple-choice options for each number; I picked the numbers, and it wrote draft reasons from my picks, which I edited. When I asked it to check them, it pointed out that a 0.65 accuracy target was too easy because a model that always guesses `take` would score 0.65 if `take` hit my 65% balance limit.
-- *What I changed:* I raised the accuracy target to 0.70 and added a sentence explaining the link between criteria 1 and 3. I also clarified what "confidence" means in criterion 5.
+- *What came back:* It gave me multiple-choice options for each number; I picked the numbers, and it wrote the reasons under each criterion based on my picks. When I asked it to check them, it pointed out that a 0.65 accuracy target was too easy because a model that always guesses `take` would score 0.65 if `take` hit my 65% balance limit.
+- *What I changed:* I raised the accuracy target from 0.65 to 0.70, and I changed criterion 5 to say "top predicted probability" so it is clear what "confidence" means.
 
-**Pre-labelling disclosure:** Claude pre-labelled 147 of my 167 posts using my definitions and decision rule. It also pulled the individual posts out of the Reddit pages I copied and dropped the ones outside my scope. The 20 rows marked `cold` I labelled myself with no AI help. Claude also wrote the first drafts of my label definitions and of this README from what I had done, which I reviewed and edited.
+**Pre-labelling disclosure:** Claude pre-labelled 147 of my 167 posts using my definitions and decision rule. It also pulled the individual posts out of the Reddit pages I copied and dropped the ones outside my scope. The 20 rows marked `cold` I labelled myself with no AI help. Claude also wrote the first drafts of my label definitions and of this README from what I had done, which I reviewed.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 

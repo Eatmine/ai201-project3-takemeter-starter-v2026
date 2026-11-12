@@ -39,140 +39,120 @@
 
 ## What This Does
 
-<!-- Your community, and what your classifier sorts posts into. Three or four
-     sentences. -->
+TakeMeter sorts posts and comments from **r/TheLastAirbender**, a public subreddit about *Avatar: The Last Airbender* and *The Legend of Korra*, into two labels: `argued` (an opinion backed by a specific, checkable detail from the show) and `take` (an opinion with no specific evidence). The question it answers is the one regulars ask without saying it: is this person making a case, or just stating a view?
 
-
+The subreddit is built around one franchise, which the brief's guideline advises against because of spoilers. I chose it anyway because both shows ended years ago (2008 and 2014), so spoiler risk is minimal. I only kept posts about the original shows and the older comics, and excluded anything about the live-action series, the upcoming movie, or other new releases.
 
 ---
 
 ## Label Taxonomy
 
-<!-- Each label: a one-sentence definition and two real examples from your
-     reading. Then your decision rule for the hardest boundary.
+### `argued`
 
-     The decision rule is worth a point on its own and it's the thing most
-     people leave out. Every taxonomy has a hardest boundary. Name yours. -->
-
-### `label_one`
-
-**Definition:**
+**Definition:** Makes a claim about the show and backs it with a specific, checkable detail: an episode, scene, quote, or in-show event.
 
 **Example 1:**
->
+> Jet is overhated. He's literally a depiction of what happened in real life and how extremist come to exist. His whole town was killed and he's one of the view survivors. He literally witnessed his family and friends being killed by the fire nation... And at the end with all the hate he had towards the fire nation it wasn't even the fire nation that killed him.
 
 **Example 2:**
->
+> Unpopular Opinion: Zuko and Ozai have a lot of parallels... Both are disfavored by their fathers. Both have a more talented and smarter sibling that their father favors over them... Both end up betraying their fathers. With Ozai, it was Azulon. With Zuko, it was both Ozai and Iroh.
 
-### `label_two`
+### `take`
 
-**Definition:**
+**Definition:** A confident opinion, ranking, or reaction with no specific evidence offered.
 
 **Example 1:**
->
+> I enjoyed legend of Korra just as much as I enjoyed TLA... I don't understand why there's so much hate it's just a different story in the same universe
 
 **Example 2:**
->
+> It's ok to not enjoy season 3 compared to the other seasons :|
 
 ### The hardest boundary
 
-**Which two labels:**
+**Which two labels:** `argued` vs `take`. The hard posts are strong opinions that mention something from the show without really using it as evidence.
 
 **The decision rule I used every time:**
-<!-- e.g. "If the post names a specific checkable fact, it's `analysis`, even
-     if the tone is heated." -->
-
-
+If the post names a specific episode, scene, quote, or in-show event as a *reason* for its opinion, it's `argued`, even if it's short or heated. Just mentioning a character's name doesn't count, and neither does a vague reference to a whole season ("season 3 was better"). For list posts with several opinions, I label the post as a whole: if most items cite a specific episode, scene, quote, or event, it's `argued`; otherwise it's `take`.
 
 ---
 
 ## The Dataset
 
-<!-- Where you collected from, how you labelled, your counts, and three hard
-     cases. -->
+**Where the posts came from:** r/TheLastAirbender, collected on November 11, 2026 by copying pages from old.reddit.com: a search for "unpopular opinion" in the subreddit, plus the full comment threads of three posts — *"Unpopular Opinion: Maybe Maiko Was Never Intended to Survive"*, *"Unpopular Opinion: Sue Has the Best Design, Bending, Combat Choreography and Achievements Among the Gaang Kids"*, and *"Unpopular Opinion (apparently): Let Uncle Iroh had a messy past"*. I left out posts about the live-action series, the upcoming movie, Seven Havens and other new releases; comments with no opinion about the show ("Same", "Me too lmao", server invites); comments about characters' looks; and long real-world history tangents. Duplicate posts were removed.
 
-**Where the posts came from:**
+**How I labelled them:** I labelled 20 posts cold first, using only my definitions (marked `cold` in the note column). The other 147 were pre-labelled by Claude (an AI assistant) using my definitions and decision rule, and marked `prelabeled`. I reviewed the pre-labels but did not read every row closely, and I changed none.
 
-**How I labelled them:** <!-- Cold first? Pre-labelled with AI and corrected?
-Say so plainly — the disclosure is required, not penalised. -->
+I collected 167 posts instead of 200. I followed the brief's stop rule because I was short on time, and kept a smaller set I could describe honestly instead of rushing more rows.
 
 **Counts per label:**
 
 | Label | Count | Share |
 |---|---|---|
-|  |  |  |
-|  |  |  |
-|  |  |  |
-| **Total** |  | 100% |
+| `take` | 103 | 61.7% |
+| `argued` | 64 | 38.3% |
+| **Total** | 167 | 100% |
 
 **Three hard cases**
 
-<!-- Any post that made you pause: what it was, which two labels it could have
-     been, and what you chose. These are worth more than the easy 190. -->
-
 **1.**
-> *The post:*
+> *The post:* "Oh that kuvira fight was pure art"
 >
-> *Could have been:*
+> *Could have been:* `argued` or `take`
 >
-> *I chose, because:*
+> *I chose `take`, because:* It names a specific scene (Suyin's fight with Kuvira), but the scene is the thing being praised, not a reason for a separate opinion. My rule needs the event to be evidence for the claim.
 
 **2.**
-> *The post:*
+> *The post:* "Izumi means "fountain"."
 >
-> *Could have been:*
+> *Could have been:* `argued` or `take`
 >
-> *I chose, because:*
+> *I chose `argued`, because:* It states no opinion on its own, but in its thread it is offered as evidence that Izumi is Mai's daughter (Zuko and Mai's fountain moment), and it is a specific, checkable detail.
 
 **3.**
-> *The post:*
+> *The post:* A reply that quotes the original poster's list ("Led the 600 day siege of Ba Sing Se", "Was the crown prince of a nation actively waging war...") and then adds: "Iroh fans are literally unhinged..."
 >
-> *Could have been:*
+> *Could have been:* `argued` or `take`
 >
-> *I chose, because:*
+> *I chose `take`, because:* The specific events in it are quoted from someone else. The commenter's own contribution is an opinion with no evidence of their own.
 
 ---
 
 ## The Training Run
 
-<!-- Your starting model, your settings, and anything you changed and why. -->
+**Base model:** `distilbert-base-uncased`
 
-**Base model:**
+**Settings:** 3 epochs, learning rate 2e-5, batch size 16, max length 128 tokens, seed 42. Trained on **mps (Apple Silicon GPU)** with torch 2.14.1. The device is also recorded in `results.json`.
 
-**Settings:** <!-- epochs, learning rate, batch size, seed -->
+**Anything I changed from the defaults, and why:** Nothing. I used the default settings.
 
-**Anything I changed from the defaults, and why:**
+**Split sizes:** train 116 · val 25 · test 26.
 
-**Split sizes:** <!-- train / val / test, and per-label counts in the test
-split. If a label had fewer than about 8 in test, say so — it explains a lot
-of next unit's variance. -->
+| Label | Train | Val | Test |
+|---|---|---|---|
+| `argued` | 44 | 10 | 10 |
+| `take` | 72 | 15 | 16 |
 
-
+Both labels have at least 8 examples in the test split, but 10 and 16 are still small, so one post changes a label's score a lot.
 
 ---
 
 ## How I Used AI
 
-<!-- Two specific moments — what you asked, what came back, what you changed.
-
-     ⚠️ Plus disclosure of any pre-labelling. If you had a model pre-label a
-     batch and then read and corrected every one, say that. It's an allowed
-     workflow and disclosing it costs you nothing. Not disclosing it is the
-     problem. -->
+I used Claude throughout this project. Two specific moments:
 
 **Moment 1**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Help choosing a community. I wanted r/TheLastAirbender.
+- *What came back:* It pointed out that the brief says to avoid communities built around one show, and suggested broader options like r/television.
+- *What I changed:* I kept r/TheLastAirbender because the rule is about spoilers and both shows ended years ago. I limited my data to the original shows and older comics and explained the choice in this README.
 
 **Moment 2**
 
-- *What I asked for:*
-- *What came back:*
-- *What I changed:*
+- *What I asked for:* Help with my acceptance criteria.
+- *What came back:* It gave me multiple-choice options for each number; I picked the numbers, and it wrote draft reasons from my picks, which I edited. When I asked it to check them, it pointed out that a 0.65 accuracy target was too easy because a model that always guesses `take` would score 0.65 if `take` hit my 65% balance limit.
+- *What I changed:* I raised the accuracy target to 0.70 and added a sentence explaining the link between criteria 1 and 3. I also clarified what "confidence" means in criterion 5.
 
-**Pre-labelling disclosure:**
+**Pre-labelling disclosure:** Claude pre-labelled 147 of my 167 posts using my definitions and decision rule. It also pulled the individual posts out of the Reddit pages I copied and dropped the ones outside my scope. The 20 rows marked `cold` I labelled myself with no AI help. Claude also wrote the first drafts of my label definitions and of this README from what I had done, which I reviewed and edited.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 

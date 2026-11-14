@@ -168,13 +168,16 @@ I used Claude throughout this project. Two specific moments:
 
 | Measure | Baseline | Trained | Difference |
 |---|---|---|---|
-| Overall accuracy |  |  |  |
-| Macro F1 |  |  |  |
-| F1 — `label_one` |  |  |  |
-| F1 — `label_two` |  |  |  |
+| Overall accuracy | 0.654 | 0.615 | -0.038 |
+| Macro F1 | 0.649 | 0.381 | -0.268 |
+| F1 — `argued` | 0.690 | 0.000 | -0.690 |
+| F1 — `take` | 0.609 | 0.762 | +0.153 |
 
 **What I predicted before I looked:**
 I predict the trained model will beat the baseline on `take` (F1 above 0.609) but not on `argued` (F1 at or below 0.690), because my training data is about 62% `take` (103 of 167), so the model will lean toward `take` when unsure and misclassify real argued posts.
+
+**How the prediction held up:**
+The direction was extreme: the model predicted `take` for all 26 posts, so its accuracy equals the always-`take` rate (0.615) and `argued` F1 is 0.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added

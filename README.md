@@ -215,17 +215,13 @@ Fine-tuning added nothing: the trained model scored below the zero-shot baseline
 <!-- ⚠️ TYPED AS A MARKDOWN TABLE. The notebook prints one ready to paste.
      An image of a matrix earns nothing. -->
 
-| true \ predicted |  |  |  |
-|---|---|---|---|
-| **** |  |  |  |
-| **** |  |  |  |
-| **** |  |  |  |
+| true \ predicted | argued | take |
+|---|---|---|
+| **argued** | 0 | 10 |
+| **take** | 0 | 16 |
 
 **My biggest off-diagonal number, and what it means:**
-<!-- Not "the model made mistakes" — WHICH boundary it didn't learn, and which
-     direction. "7 real analysis posts were called hot_take and only 3 went the
-     other way" is a direction, not just an error rate. -->
-
+All 10 real `argued` posts were predicted `take`, and 0 real `take` posts went the other way. The model didn't learn the `argued`/`take` boundary at all. It never predicts `argued`, so it isn't drawing a wrong line between the labels; it has fallen back to the majority label.
 
 
 ---

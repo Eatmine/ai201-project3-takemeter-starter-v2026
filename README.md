@@ -174,8 +174,7 @@ I used Claude throughout this project. Two specific moments:
 | F1 — `label_two` |  |  |  |
 
 **What I predicted before I looked:**
-<!-- Milestone 1 asks you to write this BEFORE seeing the trained numbers. A
-     prediction made afterwards isn't one. -->
+I predict the trained model will beat the baseline on `take` (F1 above 0.609) but not on `argued` (F1 at or below 0.690), because my training data is about 62% `take` (103 of 167), so the model will lean toward `take` when unsure and misclassify real argued posts.
 
 **What the gap actually means:**
 <!-- If the baseline matched your trained model, your fine-tuning added

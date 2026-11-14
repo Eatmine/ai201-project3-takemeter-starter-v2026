@@ -174,20 +174,30 @@ I used Claude throughout this project. Two specific moments:
 | F1 — `take` | 0.609 | 0.762 | +0.153 |
 
 **What I predicted before I looked:**
-I predict the trained model will beat the baseline on `take` (F1 above 0.609) but not on `argued` (F1 at or below 0.690), because my training data is about 62% `take` (103 of 167), so the model will lean toward `take` when unsure and misclassify real argued posts.
+I predict the trained model will beat the baseline on `take` (F1 above 0.609) but not on `argued` (F1 at or below 0.690), because my training data is about 62% `take` (103 of 167), so the model will lean toward `take` when unsure and misclassify real `argued` posts.
 
 **How the prediction held up:**
-The direction was extreme: the model predicted `take` for all 26 posts, so its accuracy equals the always-`take` rate (0.615) and `argued` F1 is 0.
+The direction was right, but the result was more extreme: the model predicted `take` for all 26 posts, so its accuracy equals the always-take rate (0.615) and `argued` F1 is 0.
 
 **What the gap actually means:**
-<!-- If the baseline matched your trained model, your fine-tuning added
-     nothing — and that is a real finding, not a failure. Say it plainly. -->
+Fine-tuning added nothing: the trained model scored below the zero-shot baseline on accuracy (0.615 vs. 0.654) and macro F1 (0.381 vs. 0.649). Its 0.615 is exactly what always guessing `take` scores, and its higher `take` F1 comes from labelling every post `take`, not from learning the label. The baseline is only one post above that floor, so neither model is doing much better than the label counts alone.
 
 
 
 ---
 
 ## Run Log — Before
+
+**Device:** mps (Apple Silicon GPU), torch 2.14.1
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.615 | 0.615 | 0.615 | 0.000 |
+| Macro F1 | 0.381 | 0.381 | 0.381 | 0.000 |
+| F1 — `argued` | 0.000 | 0.000 | 0.000 | 0.000 |
+| F1 — `take` | 0.762 | 0.762 | 0.762 | 0.000 |
+
+**Spread:** The notebook reports this as "stable enough to trust," but the zero spread isn't a sign of a reliable model. On every seed the model predicted `take` for all 26 test posts, so it scores the always-`take` rate (16/26 = 0.615) no matter which split it gets. Validation accuracy stayed at 0.6 for all three epochs, so the model never moved off the majority label.
 
 <!-- Five criteria across three seeds. The notebook's section 6 prints the
      spread table; the Target and Verdict columns are yours. -->

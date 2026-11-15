@@ -256,55 +256,57 @@ All 10 real `argued` posts were predicted `take`, and 0 real `take` posts went t
 
 ## Agreement Report
 
-<!-- Your rate against the staff set, and every disagreement adjudicated.
-
-     Remember you labelled these 30 under the STAFF taxonomy in
-     data/staff_taxonomy.md, not your own — so every argument below is made
-     from those definitions and those decision rules. -->
-
-**Agreement rate:** ___ / 30 = ___%
-
-<!-- Nobody grades this number. A 60% who argues every disagreement from the
-     stated rules beats a 95% who wrote "staff was right" nine times. Several
-     of the 30 were chosen because they're genuinely ambiguous — you should be
-     winning some of these. -->
+**Agreement rate:** 25 / 30 = 83%
 
 **Disagreements**
 
-<!-- Three lines each: the post, both labels, and who you think is right and
-     why — grounded in the staff definitions you were both applying.
-
-     Then sort each into one of three piles:
-       (a) the rule covered it and I applied it loosely → a consistency problem
-       (b) the rule genuinely doesn't say               → a gap in the definitions
-       (c) the rule is ambiguous here and my reading is defensible → argue it.
-           This is a legitimate win.
-
-     Pile (a) is the one that matters most for your diagnosis: if you applied a
-     written rule two different ways on 30 posts, that is direct evidence about
-     what you did across your own 200. -->
-
 **1.**
-> *The post:*
+> *The post:* "Everyone blames the hill at 18 miles. I split the field into people who ran the first half under 1:45 and over, and the slowdown after 18 was almost identical for both groups. If the hill were the problem the fast starters would fall apart harder."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `hot_take`
 >
-> *My call, and why:*
+> *My call, and why:* I think my `hot_take` is defensible. Rule 1 says `analysis` needs a specific, checkable fact that carries the argument. The only number given is the 1:45 cutoff. The actual finding that carries the argument, that the slowdown was "almost identical," has no number, so a reader can't check it. Without a checkable result, the conclusion rests on the writer's say-so.
 >
-> *Which pile:*
+> *Which pile:* (c). The rule is ambiguous about whether an unquantified result counts as a checkable fact, and my reading is defensible.
 
 **2.**
-> *The post:*
+> *The post:* "Checked the entry lists. 41% of this year's field have never run the distance before, against 26% five years ago. That's why the finish-line photos look different, not because standards dropped."
 >
-> *Staff said / I said:*
+> *Staff said / I said:* `analysis` / `hot_take`
 >
-> *My call, and why:*
+> *My call, and why:* Staff is right. The 41% vs. 26% figures are checkable and they are the reason given for the conclusion; without them the argument has nothing. I called it `hot_take` because the post ends with an opinion, but the staff definition says `analysis` "makes an argument," and an argument includes an opinion. I applied a stricter rule than the one written.
 >
-> *Which pile:*
+> *Which pile:* (a)
+
+**3.**
+> *The post:* "Ran the same loop in 4C and in 24C within a fortnight, same effort by heart rate. 90 seconds slower in the heat over six miles. People keep saying heat costs you 'a bit' and it's more than that."
+>
+> *Staff said / I said:* `analysis` / `hot_take`
+>
+> *My call, and why:* Staff is right. The 90 seconds over six miles is a specific figure, and it is exactly what disproves "a bit." Rule 3 says a personal post is still `analysis` if a checkable fact carries the argument. I was put off by the opinion at the end, which rule 1 doesn't disqualify.
+>
+> *Which pile:* (a)
+
+**4.**
+> *The post:* "The 10K route was remeasured in 2021 and came out 60 metres long. Everyone comparing PBs from before and after that is comparing two different races, which is about 12 seconds at club pace."
+>
+> *Staff said / I said:* `analysis` / `hot_take`
+>
+> *My call, and why:* Staff is right. A date, a distance and a time cost (2021, 60 metres, about 12 seconds) lead directly to the conclusion. This is the clearest load-bearing fact of the five. I reacted to the sweeping "everyone comparing PBs" phrasing instead of checking whether the figures carried it.
+>
+> *Which pile:* (a)
+
+**5.**
+> *The post:* "Three of us ran the same session on the same day, different shoes, within 10 seconds of each other over 5 miles. I'm not saying shoes do nothing, but whatever they do was smaller than the noise between three people."
+>
+> *Staff said / I said:* `analysis` / `hot_take`
+>
+> *My call, and why:* Both labels can be argued from the rules. The post does give a figure (three runners within 10 seconds over 5 miles), and the conclusion is built on it, which supports `analysis`. But three people on one day is an anecdote, and the staff rules never say whether evidence that small and uncontrolled can count as the fact that carries an argument. Rule 1 asks whether the fact is load-bearing, not whether it is strong enough to bear the load.
+>
+> *Which pile:* (b). The rules don't say how strong the evidence has to be.
 
 **What the pattern in my disagreements tells me:**
-
-
+All five disagreements went the same way: staff said `analysis`, I said `hot_take`. I agreed with staff on every `reaction` and every `hot_take` post. I was treating any opinion in a post as disqualifying, when the staff definition allows an opinion as long as a checkable figure carries it. Three of the five are pile (a), one is (b) and one is (c). This suggests my instinct is to under-call the evidence-based label, and that matters for my own `argued` labels too.
 
 ---
 

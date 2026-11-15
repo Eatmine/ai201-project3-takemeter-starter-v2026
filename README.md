@@ -138,7 +138,7 @@ Both labels have at least 8 examples in the test split, but 10 and 16 are still 
 
 ## How I Used AI
 
-I used Claude throughout this project. Two specific moments:
+I used Claude throughout this project. Three specific moments:
 
 **Moment 1**
 
@@ -152,7 +152,15 @@ I used Claude throughout this project. Two specific moments:
 - *What came back:* It gave me multiple-choice options for each number; I picked the numbers, and it wrote the reasons under each criterion based on my picks. When I asked it to check them, it pointed out that a 0.65 accuracy target was too easy because a model that always guesses `take` would score 0.65 if `take` hit my 65% balance limit.
 - *What I changed:* I raised the accuracy target from 0.65 to 0.70, and I changed criterion 5 to say "top predicted probability" so it is clear what "confidence" means.
 
+
 **Pre-labelling disclosure:** Claude pre-labelled 147 of my 167 posts using my definitions and decision rule. It also pulled the individual posts out of the Reddit pages I copied and dropped the ones outside my scope. The 20 rows marked `cold` I labelled myself with no AI help. Claude also wrote the first drafts of my label definitions and of this README from what I had done, which I reviewed.
+
+
+**Moment 3 (unit 6)**
+
+- *What I asked for:* Help working through the testing unit: understanding precision/recall/F1, reading my seed results and confusion matrix, comparing my staff labels, and writing up this README.
+- *What came back:* Claude explained the metrics with my own numbers, noticed the trained model was predicting `take` for every post, and pointed out that the confidence data showed a weak signal, which supported "too little training" as the main cause. For my agreement check, it laid out the strongest case for each label from the staff rules, then drafted the write-ups from my reasoning. It also drafted the verdict, diagnosis, improvement and "still broken" sections from my results, and suggested more epochs as the one change.
+- *What I changed / decided myself:* I labelled all 30 staff posts myself, using a small script Claude wrote that only recorded my answers. I made every adjudication call and chose the piles: I kept `hot_take` on the hill post (c) because its key result has no number, and called the three-runners post (b) because the rules don't say how strong evidence must be. I wrote my prediction before seeing the comparison, and I reviewed and edited each section before committing.
 
 <!-- ═══════════════════════ UNIT 6 — THE TEST ═══════════════════════
 
@@ -349,15 +357,17 @@ The direction flipped: the model now calls 4 real `take` posts `argued`, and onl
 
 ## What's Still Broken
 
-<!-- For each criterion still missed: what you'd do, and why you stopped. -->
+**Criterion 4 (agreement ≥ 85%): still missed at 83%.** All five of my disagreements with staff went the same way: I under-called `analysis` because I treated any opinion in a post as disqualifying. What I'd do: re-review my own 167 labels with the corrected reading of my rule (a show detail that carries the opinion makes a post `argued`, even if the post also states an opinion), starting with the 147 pre-labelled rows I never read closely. Why I stopped: the brief allows only one change this unit, and relabelling would have been a second one on top of the epoch change.
 
+**Criterion 5 is only met by proxy.** My criterion splits predictions at a top probability of 0.80, but the results file records accuracy by confidence thirds. What I'd do: add a cell that saves each test prediction's probability and computes accuracy above and below 0.80 directly. Why I stopped: time, and the thirds already showed a clear gap on every seed.
 
+**`argued` F1 is fragile.** It passed on all three seeds, but seed 2024 (0.706) was only 5.6 points over the 0.65 target, with a 0.164 spread. On that seed validation accuracy also peaked around epoch 5 and dipped by epoch 10, which looks like mild overfitting. What I'd do: try fewer epochs (around 6) or add about 30 more `argued` examples, my smaller label. Why I stopped: one change per unit.
 
-**The gap between what I meant my labels to capture and what the model
-learned:**
-<!-- Two sentences. Your confusion matrix is the evidence. -->
+**The model now over-calls `argued`.** On seed 42 it called 4 real `take` posts `argued` and only 1 the other way. What I'd do: read those 4 posts to see whether they name a show detail without using it as a reason (like my Kuvira hard case), or whether they were mislabelled `take` in the first place. Why I stopped: time.
 
+**The gap between what I meant my labels to capture and what the model learned:**
 
+I meant `argued` to capture posts that use a specific show detail as the *reason* for an opinion, but at 3 epochs the model learned only that most posts are `take`, and sent all 10 real `argued` posts there. At 10 epochs it learned the boundary well enough to pass my targets, but it now calls 4 `take` posts `argued`, which suggests it may be reacting to surface cues like named episodes or longer posts rather than to whether the detail actually carries the argument.
 
 <!-- ═════════════════════════════════════════════════════════════════════
 

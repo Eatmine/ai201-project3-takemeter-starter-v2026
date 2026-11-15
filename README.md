@@ -204,11 +204,13 @@ Fine-tuning added nothing: the trained model scored below the zero-shot baseline
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.70 | 0.615 | 0.615 | 0.615 | MISSED |
+| 2. Per-label F1 | `take` ≥ 0.75 and `argued` ≥ 0.65 | 0.762 / 0.000 | 0.762 / 0.000 | 0.762 / 0.000 | MISSED |
+| 3. No label above 65% of labels.csv | ≤ 65% | 61.7% | 61.7% | 61.7% | MET |
+| 4. Agreement with staff labels | ≥ 85% | 83% | 83% | 83% | MISSED |
+| 5. Confident predictions (≥ 0.80) right 10+ points more often | gap ≥ 10 pts | no predictions ≥ 0.80 | no predictions ≥ 0.80 | no predictions ≥ 0.80 | MISSED |
+
+Criteria 3 and 4 don't depend on the seed: 3 is a property of `labels.csv` and 4 is a single check of 30 posts, so the same value is repeated in each column.
 
 ### Confusion matrix
 
@@ -221,36 +223,33 @@ Fine-tuning added nothing: the trained model scored below the zero-shot baseline
 | **take** | 0 | 16 |
 
 **My biggest off-diagonal number, and what it means:**
-All 10 real `argued` posts were predicted `take`, and 0 real `take` posts went the other way. The model didn't learn the `argued`/`take` boundary at all. It never predicts `argued`, so it isn't drawing a wrong line between the labels; it has fallen back to the majority label.
+ All 10 real `argued` posts were predicted `take`, and 0 real `take` posts went the other way. The model didn't learn the `argued`/`take` boundary well enough to predict `argued` even once. It never predicts `argued`, so it isn't drawing a wrong line between the labels; it has fallen back to the majority label.
 
 
 ---
 
 ## Verdicts and Diagnoses
 
-<!-- MET or MISSED against LAST UNIT's target. The target has to hold across
-     all three seeds, not turn up sometimes. -->
-
 | # | Criterion | Target | Verdict | How I decided |
 |---|---|---|---|---|
-| 1 |  |  |  |  |
-| 2 |  |  |  |  |
-| 3 |  |  |  |  |
-| 4 |  |  |  |  |
-| 5 |  |  |  |  |
+| 1 | Overall accuracy | ≥ 0.70 on all 3 seeds | MISSED | 0.615 on every seed, which is exactly the always-`take` rate (16/26). |
+| 2 | Per-label F1 | `take` ≥ 0.75 and `argued` ≥ 0.65 on all 3 seeds | MISSED | `take` passed (0.762) but `argued` was 0.000 on every seed, and the criterion needs both. |
+| 3 | Balance | No label above 65% | MET | `take` is 103 of 167 posts (61.7%). This kept the always-`take` score (0.615) below my 0.70 accuracy target, so criterion 1 caught the collapse. |
+| 4 | Agreement | ≥ 85% with staff | MISSED | 25/30 = 83%, one post short of 26/30 (86.7%). |
+| 5 | Confidence | ≥ 0.80 predictions right 10+ points more often | MISSED | Mean confidence was 0.61–0.63 when right and 0.56–0.59 when wrong, so no or almost no predictions reached 0.80 and the gap can't be shown. |
 
 **Diagnoses**
 
-<!-- For each miss: the cause, and how you know. The four common causes are:
-     too few examples for a label, a boundary you applied inconsistently, a
-     genuinely hard label pair, and a task the model can't reach from this
-     much data.
+**Criteria 1 and 2: the model never predicts `argued`.** My matrix shows all 10 real `argued` posts predicted `take`, on all three seeds. I think the main cause is too little training combined with class imbalance, and less likely my labelling. Evidence:
+- **Training was very short.** 116 posts at batch size 16 for 3 epochs is about 24 update steps. Validation accuracy stayed at 0.6 (always-`take`) on every epoch of every seed.
+- **Imbalance made `take` the safe answer.** Training had 72 `take` vs 44 `argued`.
+- **The model did learn a weak signal.** Its most confident third was 87.5–100% correct and its least confident third only 12.5–25%, so its confidence does separate the labels. That signal just never got strong enough to push any post over 50% toward `argued`.
+- **The task is learnable.** The zero-shot baseline reached `argued` F1 = 0.690 from my definitions alone, so the difference is in the text.
+- **Labelling may still play a part.** My agreement check shows I under-call the evidence-based label (all 5 disagreements were staff `analysis`, me `hot_take`), and 147 of my 167 labels were pre-labelled and not closely reviewed. But inconsistent labels would more likely give wrong guesses on borderline posts, not a model that never predicts `argued` at all.
 
-     ⚠️ Use your agreement report as evidence. It is the only instrument you
-     have that can tell a LABELLING problem from a MODEL problem, and this
-     section is graded on whether you used it that way. -->
+**Criterion 4: 83% agreement, one post short.** All five disagreements went the same way: staff said `analysis`, I said `hot_take`. Three were pile (a): I treated any opinion in a post as disqualifying, when the staff rule only requires a checkable fact that carries the argument. This is a consistency problem in how I judge evidence, and it's the same boundary my model failed on. My criterion's reason also assumed I'd be applying my own rule, but this check used the staff taxonomy.
 
-
+**Criterion 5: no confident predictions.** The model's confidence stayed around 0.6, close to the 62% share of `take` in training. This follows from the same cause as criteria 1 and 2: with so little training, the model never became sure of anything.
 
 ---
 

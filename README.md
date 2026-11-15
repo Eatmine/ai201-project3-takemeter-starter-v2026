@@ -311,26 +311,39 @@ All five disagreements went the same way: staff said `analysis`, I said `hot_tak
 
 ## The Improvement
 
-**What I changed:**
+**What I changed:** Training epochs from 3 to 10. Nothing else: same labels, same learning rate (2e-5), same batch size (16), same three seeds (42, 7, 2024). Device: mps (Apple Silicon GPU), torch 2.14.1.
 
-**Which diagnosis pointed at it:**
+**Which diagnosis pointed at it:** My diagnosis for criteria 1 and 2 was too little training. 3 epochs was about 24 update steps, validation accuracy stayed at 0.6 (always-`take`) on every epoch of every seed, and the confidence data showed the model had learned a weak signal that never got strong enough to predict `argued`. More epochs targets that directly. I chose this over relabelling because the model never predicted `argued` at all, which pointed at training more than at an inconsistent boundary.
+
+| Measure | Seed 42 | Seed 7 | Seed 2024 | Spread |
+|---|---|---|---|---|
+| Overall accuracy | 0.808 | 0.885 | 0.808 | 0.077 |
+| Macro F1 | 0.805 | 0.883 | 0.782 | 0.102 |
+| F1 — `argued` | 0.783 | 0.870 | 0.706 | 0.164 |
+| F1 — `take` | 0.828 | 0.897 | 0.857 | 0.069 |
 
 ### Run Log — After
 
 | Criterion | Target | Seed 42 | Seed 7 | Seed 2024 | Verdict |
 |---|---|---|---|---|---|
-| 1.  |  |  |  |  |  |
-| 2.  |  |  |  |  |  |
-| 3.  |  |  |  |  |  |
-| 4.  |  |  |  |  |  |
-| 5.  |  |  |  |  |  |
+| 1. Overall accuracy | ≥ 0.70 | 0.808 | 0.885 | 0.808 | MET |
+| 2. Per-label F1 | `take` ≥ 0.75 and `argued` ≥ 0.65 | 0.828 / 0.783 | 0.897 / 0.870 | 0.857 / 0.706 | MET |
+| 3. No label above 65% of labels.csv | ≤ 65% | 61.7% | 61.7% | 61.7% | MET |
+| 4. Agreement with staff labels | ≥ 85% | 83% | 83% | 83% | MISSED |
+| 5. Confident predictions right 10+ points more often | gap ≥ 10 pts | 100% vs 62.5% | 100% vs 75% | 87.5% vs 75% | MET by proxy |
 
-**Did it help, and how do I know:**
+Criterion 5 note: my criterion splits at a top probability of 0.80, but the results file records accuracy by confidence thirds, not by that threshold. The most-confident third beat the least-confident third by 37.5, 25 and 12.5 points, and mean confidence when right rose from about 0.62 to 0.83. I'm reporting this as met by proxy, not as a direct measurement of the 0.80 split.
 
-<!-- If it didn't, say so. Relabelling that didn't help is a genuinely
-     interesting result and earns full credit. -->
+### Confusion matrix — After (seed 42)
 
+| true \ predicted | argued | take |
+|---|---|---|
+| **argued** | 9 | 1 |
+| **take** | 4 | 12 |
 
+The direction flipped: the model now calls 4 real `take` posts `argued`, and only 1 real `argued` post `take`.
+
+**Did it help, and how do I know:** Yes. Accuracy went from 0.615 on every seed to 0.808–0.885, and `argued` F1 went from 0.000 to 0.706–0.870. The model now beats the zero-shot baseline (0.654) on every seed, and validation accuracy rose above 0.6 during training instead of staying flat. Criteria 1, 2 and 5 moved from MISSED to MET (5 by proxy). Two caveats: `argued` F1 on seed 2024 (0.706) is only 5.6 points over its target with a 0.164 spread, so a different split could miss it; and on seed 2024 validation accuracy peaked around epoch 5 and then dipped while validation loss rose, which suggests mild overfitting by epoch 10. Criterion 4 is unchanged because retraining doesn't change my labels.
 
 ---
 
